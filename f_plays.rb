@@ -25,26 +25,26 @@ class Pass
     else
       @complete = 'no_play'
     end
-
-def yards
-  if @complete == true
-    @yards = rand(1...20)
-  else @yards = 0
   end
-end
 
-def announce
-  if @complete == 'no_play'
-    puts "Confusion at the line and they'll have to call a timeout."
-  else puts "He drops back to throw ..."
+  def yards
     if @complete == true
-      puts "and the pass is complete for #{@yards} yards!"
-    else
-      puts "and it falls incomplete."
+      @yards = rand(1...20)
+    else @yards = 0
     end
   end
-end
 
+  def announce
+    if @complete == 'no_play'
+      puts "Confusion at the line and they'll have to call a timeout."
+    else puts "He drops back to throw ..."
+      if @complete == true
+        puts "and the pass is complete for #{@yards} yards!"
+      else
+        puts "and it falls incomplete."
+      end
+    end
+  end
 end
 
 class Run
@@ -74,19 +74,21 @@ class Run
     else
       @outcome = 'no_play'
     end
-
+  end
 
   def yards
     if @outcome == true
       @yards = rand(2...12)
-    else @yards = rand(-3...0)
+    else
+      @yards = rand(-3...0)
     end
   end
 
   def announce
     if @outcome == 'no_play'
-    puts "Confusion at the line and they'll have to call a timeout."
-    else puts "It's a handoff to the running back ..."
+      puts "Confusion at the line and they'll have to call a timeout."
+    else
+      puts "It's a handoff to the running back ..."
     end
     if @outcome == true
       puts "and he rumbles ahead for #{@yards} yards!"
@@ -103,60 +105,21 @@ p_c = gets.chomp.to_i
 
 def run_play(play_call)
   suc = rand(1...20)
-if play_call == 1
-  r = Run.new()
-  r.outcome('dive',suc)
-  r.yards
-  r.announce
-elsif play_call == 2
-  p = Pass.new()
-  p.complete('short',suc)
-  p.yards
-  p.announce
-else
-  n = Pass.new()
-  n.complete('no_play',suc)
-  n.announce
+  if play_call == 1
+    r = Run.new()
+    r.outcome('dive',suc)
+    r.yards
+    r.announce
+  elsif play_call == 2
+    p = Pass.new()
+    p.complete('short',suc)
+    p.yards
+    p.announce
+  else
+    n = Pass.new()
+    n.complete('no_play',suc)
+    n.announce
+  end
 end
-end
-
-
 
 run_play(p_c)
-
-
-# class Play
-#   def initialize()
-# end
-# def run_play
-#   suc = rand(1...20)
-#   r = Run.new()
-#   @run = r.outcome('dive',suc)
-#   @yds = r.yards
-#   @annc = r.announce
-#   puts "#{@annc}"
-# end
-#
-# def pass_play
-#   suc = rand(1...20)
-#   p = Pass.new()
-#   @pass = p.complete('short',suc)
-#   @yds = p.yards
-#   @annc = p.announce
-#   puts "#{@annc}"
-# end
-#
-# pass_play()
-#
-# run_play()
-
-# p.complete('short',suc)
-#
-# p.yards
-#
-# p.announce
-
-# puts "The id of p is #{p.object_id}."
-
-end
-end
