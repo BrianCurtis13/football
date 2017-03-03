@@ -6,28 +6,42 @@ class Pass
     @complete = false
   end
 
-  def complete(type, suc)
-    case type
-    when 'short'
-      case suc
-      when (1...5)
-        @complete = false
-      when (6...20)
-        @complete = true
-      end
-    when 'long'
-      case suc
-      when (1...9)
-        @complete = false
-      when (11...20)
-        @complete = true
-      end
-    else
-      @complete = 'no_play'
+  def pass_short(suc)
+    complete_short(suc)
+    yards_short
+  end
+
+  def pass_long(suc)
+    complete_long(suc)
+    yards_long
+  end
+
+  def complete_short(suc)
+    case suc
+    when (1...5)
+      @complete = false
+    when (6...20)
+      @complete = true
     end
   end
 
-  def yards
+  def complete_long(suc)
+    case suc
+    when (1...9)
+      @complete = false
+    when (11...20)
+      @complete = true
+    end
+  end
+
+  def yards_short
+    if @complete == true
+      @yards = rand(1...20)
+    else @yards = 0
+    end
+  end
+
+  def yards_long
     if @complete == true
       @yards = rand(1...20)
     else @yards = 0
@@ -99,27 +113,55 @@ class Run
 end
 
 puts "What's the play coach?"
-puts "1 = Run, 2 = Pass"
+puts "1 = Dive, 2 = Sweep, 3 = Short Pass, 4 = Long Pass"
 
 p_c = gets.chomp.to_i
 
-def run_play(play_call)
+def dive
   suc = rand(1...20)
-  if play_call == 1
-    r = Run.new()
-    r.outcome('dive',suc)
-    r.yards
-    r.announce
-  elsif play_call == 2
-    p = Pass.new()
-    p.complete('short',suc)
-    p.yards
-    p.announce
+  r = Run.new()
+  r.outcome('dive',suc)
+  r.yards
+  r.announce
+end
+
+def sweep
+  suc = rand(1...20)
+  r = Run.new()
+  r.outcome('sweep',suc)
+  r.yards
+  r.announce
+end
+
+def short_pass
+  suc = rand(1...20)
+  p = Pass.new()
+  p.pass_short(suc)
+  p.yards_short
+  p.announce
+end
+
+def long_pass
+  suc = rand(1...20)
+  p = Pass.new()
+  p.pass_long(suc)
+  p.yards_long
+  p.announce
+end
+
+def run_the_play(play_call)
+  case play_call
+  when 1
+    dive
+  when 2
+    sweep
+  when 3
+    short_pass
+  when 4
+    long_pass
   else
-    n = Pass.new()
-    n.complete('no_play',suc)
-    n.announce
+    puts "That's not in the playbook."
   end
 end
 
-run_play(p_c)
+run_the_play(p_c)
