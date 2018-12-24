@@ -2,15 +2,14 @@
 
 #Next steps:
 
-down = 1
-
-yards = 0.0
-
 plays = 0
+@yards = 0.0
 
-distance = 10
+until @yards >= 100 do
 
-until yards >= 100 do
+  down = 1
+
+  distance = 10.0
 
   while distance > 0 do
 
@@ -28,7 +27,7 @@ until yards >= 100 do
 
     elsif play_call == "3"
 
-      play = rand(-20...50).to_f
+      play = rand(-20...70).to_f
 
     else
       puts "That's not in the playbook!"
@@ -44,24 +43,30 @@ until yards >= 100 do
 
   end
 
-  yards = yards + play
+  @yards = @yards + play
 
-  distance = distance - yards
+  distance = distance - @yards
 
   down += 1
 
   plays += 1
 
-  if down > 4 do
+  if distance <= 0.0
+    down = 1
+    distance = 10.0
+  end
+
+  if down > 4
     puts "You turned it over on downs."
   end
   end
 
 #  ypp = (yards.to_f/plays.to_f)
 
-  ypp = (yards/plays)
+  ypp = (@yards/plays)
 
-  puts "#{yards} total yards."
+  puts "You scored a touchdown."
+  puts "#{@yards} total yards."
 
   puts "Play count: #{plays}"
 

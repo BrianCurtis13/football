@@ -18,33 +18,31 @@ class Pass
 
   def complete_short(suc)
     case suc
-    when (1...5)
-      @complete = false
     when (6...20)
       @complete = true
+    else
     end
   end
 
   def complete_long(suc)
     case suc
-    when (1...9)
-      @complete = false
-    when (11...20)
+    when (10...20)
       @complete = true
+    else
     end
   end
 
   def yards_short
     if @complete == true
       @yards = rand(1...20)
-    else @yards = 0
+    else
     end
   end
 
   def yards_long
     if @complete == true
       @yards = rand(1...20)
-    else @yards = 0
+    else
     end
   end
 
@@ -69,32 +67,51 @@ class Run
     @outcome = false
   end
 
-  def outcome(type, suc)
-    case type
-    when 'dive'
+def dive(suc)
+  outcome_dive(suc)
+  yards_dive
+end
+
+def sweep(suc)
+  outcome_sweep(suc)
+  yards_sweep
+end
+
+  def outcome_dive(suc)
       case suc
-      when (1...5)
-        @outcome = false
+      # when (1...5)
+      #   @outcome = false
       when (6...20)
         @outcome = true
+      else
       end
-    when 'sweep'
+    end
+
+  def outcome_sweep(suc)
       case suc
-      when (1...9)
-        @outcome = false
+      # when (1...9)
+      #   @outcome = false
       when (11...20)
-        @outcome = false
+        @outcome = true
       end
+    # else
+    #   @outcome = 'no_play'
+    # end
+  end
+
+  def yards_dive
+    if @outcome == true
+      @yards = rand(1...8)
     else
-      @outcome = 'no_play'
+      @yards = rand(-3...0)
     end
   end
 
-  def yards
+  def yards_sweep
     if @outcome == true
-      @yards = rand(2...12)
+      @yards = rand(1...16)
     else
-      @yards = rand(-3...0)
+      @yards = rand(-6...0)
     end
   end
 
@@ -120,16 +137,14 @@ p_c = gets.chomp.to_i
 def dive
   suc = rand(1...20)
   r = Run.new()
-  r.outcome('dive',suc)
-  r.yards
+  r.dive(suc)
   r.announce
 end
 
 def sweep
   suc = rand(1...20)
   r = Run.new()
-  r.outcome('sweep',suc)
-  r.yards
+  r.sweep(suc)
   r.announce
 end
 
@@ -137,7 +152,7 @@ def short_pass
   suc = rand(1...20)
   p = Pass.new()
   p.pass_short(suc)
-  p.yards_short
+  # p.yards_short
   p.announce
 end
 
@@ -145,7 +160,7 @@ def long_pass
   suc = rand(1...20)
   p = Pass.new()
   p.pass_long(suc)
-  p.yards_long
+  # p.yards_long
   p.announce
 end
 
